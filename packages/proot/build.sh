@@ -8,8 +8,7 @@ TERMUX_PKG_SRCURL=https://github.com/termux/proot/archive/v${TERMUX_PKG_VERSION}
 TERMUX_PKG_SHA256=29385d1ddb619a9c4449ab512bfd55032034b22f724ddf98fc95ff300ea32135
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
-TERMUX_PKG_DEPENDS="libandroid-shmem"
-TERMUX_PKG_BUILD_DEPENDS="libtalloc, libtalloc-static"
+TERMUX_PKG_BUILD_DEPENDS="libandroid-shmem, libandroid-shmem-static, libtalloc, libtalloc-static"
 TERMUX_PKG_SUGGESTS="proot-distro"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_EXTRA_MAKE_ARGS="-C src PROOT_WITH_LIBANDROID_SHMEM=true"
@@ -20,7 +19,7 @@ export PROOT_UNBUNDLE_LOADER=$TERMUX_PREFIX/libexec/proot
 termux_step_pre_configure() {
 	CPPFLAGS+=" -DARG_MAX=131072 -DVERSION=\\\"${TERMUX_PKG_VERSION}\\\""
 	LDFLAGS="${LDFLAGS/ -Wl,-rpath=$TERMUX__PREFIX__LIB_DIR/}"
-	LDFLAGS+=" -Wl,-z,max-page-size=16384 -Wl,-Bstatic -ltalloc -Wl,-Bdynamic"
+	LDFLAGS+=" -Wl,-z,max-page-size=16384 -Wl,-Bstatic -ltalloc -landroid-shmem -Wl,-Bdynamic"
 }
 
 termux_step_post_make_install() {
