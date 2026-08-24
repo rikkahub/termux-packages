@@ -19,7 +19,7 @@ export PROOT_UNBUNDLE_LOADER=$TERMUX_PREFIX/libexec/proot
 termux_step_pre_configure() {
 	CPPFLAGS+=" -DARG_MAX=131072 -DVERSION=\\\"${TERMUX_PKG_VERSION}\\\""
 	LDFLAGS="${LDFLAGS/ -Wl,-rpath=$TERMUX__PREFIX__LIB_DIR/}"
-	LDFLAGS+=" -Wl,-z,max-page-size=16384 -Wl,-Bstatic -ltalloc -landroid-shmem -Wl,-Bdynamic"
+	LDFLAGS+=" -Wl,-z,max-page-size=16384 -Wl,-Bstatic -ltalloc -landroid-shmem -Wl,-Bdynamic -llog"
 }
 
 termux_step_post_make_install() {
