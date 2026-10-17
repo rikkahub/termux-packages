@@ -3,6 +3,7 @@ TERMUX_PKG_DESCRIPTION="Hierarchical, reference counted memory pool system with 
 TERMUX_PKG_LICENSE="GPL-3.0"
 TERMUX_PKG_MAINTAINER="@termux"
 TERMUX_PKG_VERSION=2.5.0
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=https://www.samba.org/ftp/talloc/talloc-${TERMUX_PKG_VERSION}.tar.gz
 TERMUX_PKG_SHA256=912afa237510ae542a7733998eb18a12bcda35ab6729c8e2ddb43e8d0ebab007
 TERMUX_PKG_BREAKS="libtalloc-dev"
@@ -61,6 +62,7 @@ EOF
 
 termux_step_post_make_install() {
 	cd $TERMUX_PKG_SRCDIR/bin/default
-	$AR rcu libtalloc.a talloc*.o
+	# talloc.c calls rep_memset_explicit() from libreplace since 2.5.0
+	$AR rcu libtalloc.a talloc*.o lib/replace/replace.c.*.o
 	install -Dm600 libtalloc.a $TERMUX_PREFIX/lib/libtalloc.a
 }
